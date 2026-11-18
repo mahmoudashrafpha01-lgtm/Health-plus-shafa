@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Health Plus Shafa</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f0f6fa;
+    color: #17324d;
+}
+
+header {
+    background: linear-gradient(135deg, #063b59, #087e91);
+    color: white;
+    text-align: center;
+    padding: 35px 15px;
+    border-radius: 0 0 30px 30px;
+}
+
+header h1 {
+    font-size: 30px;
+}
+
+header span {
+    color: #58e0d0;
+}
+
+.container {
+    max-width: 650px;
+    margin: auto;
+    padding: 20px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px #dce8ed;
+}
+
+h2 {
+    color: #087e91;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 13px;
+    margin: 8px 0;
+    border: 1px solid #d4e2e8;
+    border-radius: 9px;
+    font-size: 16px;
+}
+
+button {
+    background: #087e91;
+    color: white;
+    border: none;
+    padding: 14px;
+    width: 100%;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.patient {
+    background: #eaf7f8;
+    padding: 15px;
+    margin-top: 12px;
+    border-radius: 10px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Health Plus <span>Shafa</span> ✚</h1>
+    <p>Medical Patient Records System</p>
+    <p>رعايتك الصحية تبدأ من هنا</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>مرحباً بك في شفاء</h2>
+        <p>نظام بسيط لإدارة الملفات الطبية وحفظ بيانات المرضى.</p>
+    </div>
+
+    <div class="card">
+        <h2>➕ إضافة مريض جديد</h2>
+
+        <input id="name" placeholder="اسم المريض">
+        <input id="age" type="number" placeholder="العمر">
+        <input id="phone" placeholder="رقم الهاتف">
+
+        <select id="blood">
+            <option value="">فصيلة الدم</option>
+            <option>A+</option>
+            <option>A-</option>
+            <option>B+</option>
+            <option>B-</option>
+            <option>O+</option>
+            <option>O-</option>
+            <option>AB+</option>
+            <option>AB-</option>
+        </select>
+
+        <textarea id="disease" placeholder="الأمراض السابقة"></textarea>
+        <textarea id="notes" placeholder="ملاحظات الطبيب"></textarea>
+
+        <button onclick="addPatient()">حفظ بيانات المريض</button>
+    </div>
+
+    <div class="card">
+        <h2>🔍 البحث عن مريض</h2>
+        <input id="search" placeholder="اكتب اسم المريض" oninput="showPatients()">
+        <div id="patients"></div>
+    </div>
+
+</div>
+
+<footer>
+    Health Plus Shafa © 2026
+</footer>
+
+<script>
+let patients = [];
+
+function addPatient() {
+
+    let name = document.getElementById("name").value.trim();
+    let age = document.getElementById("age").value;
+    let phone = document.getElementById("phone").value;
+    let blood = document.getElementById("blood").value;
+    let disease = document.getElementById("disease").value;
+    let notes = document.getElementById("notes").value;
+
+    if (!name || !age) {
+        alert("من فضلك أدخل الاسم والعمر");
+        return;
+    }
+
+    patients.push({
+        name, age, phone, blood, disease, notes
+    });
+
+    showPatients();
+    alert("تمت إضافة المريض بنجاح");
+
+    document.getElementById("name").value = "";
+    document.getElementById("age").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("blood").value = "";
+    document.getElementById("disease").value = "";
+    document.getElementById("notes").value = "";
+}
+
+function showPatients() {
+
+    let search = document.getElementById("search").value.trim();
+    let box = document.getElementById("patients");
+
+    box.innerHTML = "";
+
+    patients.forEach(function(p) {
+
+        if (p.name.includes(search)) {
+
+            let div = document.createElement("div");
+            div.className = "patient";
+
+            let title = document.createElement("h3");
+            title.textContent = p.name;
+
+            let details = document.createElement("p");
+            details.textContent =
+                "العمر: " + p.age +
+                " | الهاتف: " + p.phone +
+                " | فصيلة الدم: " + p.blood +
+                " | الأمراض: " + p.disease +
+                " | الملاحظات: " + p.notes;
+
+            div.appendChild(title);
+            div.appendChild(details);
+            box.appendChild(div);
+        }
+    });
+}
+</script>
+
+</body>
+</html>
